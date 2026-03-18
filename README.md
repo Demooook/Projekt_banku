@@ -1,5 +1,5 @@
-# Projekt_banku 
-Diagram UML
+# Projekt banku (C++ OOP)
+Ponizej znajduje się diagram UML - architektura systemu bankowego z zastosowaniem programowania obiektowego.
 ```mermaid  
  classDiagram
     class Uzytkownik{
