@@ -1,6 +1,5 @@
 # Projekt_banku 
 Diagram UML
-<pre>
 ```mermaid  
  classDiagram
     class Uzytkownik{
