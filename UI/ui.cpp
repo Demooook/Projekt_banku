@@ -1,12 +1,16 @@
 #include <iostream>
 
 #include "ui.h"
+#include "konto.h"
+#include "uzytkownik.h"
+#include "klient.h"
+
 
 void Ui::start()
 {
 int opcja=0;
 bool wyjscie=true;
-std::string temp_login,temp_haslo;
+std::string temp_login,temp_haslo,temp_imie,temp_nazwisko,temp_pesel;
 
 czyscEkran();
 std::cout<<"Witamy w banku [Golden Fountain]"<<"\n";
@@ -27,7 +31,21 @@ std::cin>>opcja;
     }
     else if(opcja==2)
     {
+        czyscEkran();
+        std::cout<<"Aby utworzyc twoje konto potrzebujemy ponizszych informacji:"<<"\n";
+        std::cout<<"Login:";
+        std::cin>>temp_login;
+        std::cout<<"Haslo:";
+        std::cin>>temp_haslo;
+        std::cout<<"Imie: ";
+        std::cin>>temp_imie;
+        std::cout<<"Nazwisko: ";
+        std::cin>>temp_nazwisko;
+        std::cout<<"Pesel: ";
+        std::cin>>temp_pesel;
 
+        //pitstop konczymy tutaj
+        utworzKonto(std::string temp_login, std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, int temp_pesel)
     }
     else
     {
