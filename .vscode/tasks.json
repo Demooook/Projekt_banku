@@ -1,0 +1,35 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: clang kompiluj aktywny plik",
+            "command": "/usr/bin/clang++",
+            "args": [
+    "-g",
+    // 1. Bierze wszystkie pliki .cpp z głównego folderu
+    "${workspaceFolder}/*.cpp", 
+    // 2. Bierze wszystkie pliki .cpp z podfolderu ui
+    "${workspaceFolder}/Ui/*.cpp", 
+    "${workspaceFolder}/Operacje/*.cpp", 
+    "${workspaceFolder}/Uzytkownicy/*.cpp", 
+    "${workspaceFolder}/Konta/*.cpp", 
+    // Tutaj możesz dodawać kolejne foldery, np. logika, baza itp.
+    // "${workspaceFolder}\\logika\\*.cpp",
+    "-o",
+    "${workspaceFolder}/bank_aplikacja"
+],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Zadanie wygenerowane przez debuger."
+        }
+    ],
+    "version": "2.0.0"
+}

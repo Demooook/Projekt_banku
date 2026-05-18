@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debuguj Bank (Mac)",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/bank_aplikacja",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "terminal": "integrated" 
+        }
+    ]
+}

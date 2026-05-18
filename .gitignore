@@ -1,0 +1,13 @@
+# Skompilowane programy
+bank_aplikacja
+*.out
+*.exe
+*.app
+
+# Pliki systemowe Maca
+.DS_Store
+
+# Śmieci z kompilatora i debuggera
+*.o
+*.obj
+*.dSYM/
