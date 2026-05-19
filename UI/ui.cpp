@@ -1,14 +1,12 @@
 #include <iostream>
 
 #include "ui.h"
-#include "konto.h"
-#include "uzytkownik.h"
-#include "klient.h"
+#include "../Uzytkownicy/klient.h"
 
 
 void Ui::start()
 {
-int opcja=0;
+int opcja=0,temp_id_uzytkownika=0;
 bool wyjscie=true;
 std::string temp_login,temp_haslo,temp_imie,temp_nazwisko,temp_pesel;
 
@@ -27,6 +25,7 @@ std::cin>>opcja;
         std::cin>>temp_login;
         std::cout<<"Haslo:"<<"\n";
         std::cin>>temp_haslo;
+        //Logowanie();
 
     }
     else if(opcja==2)
@@ -44,8 +43,11 @@ std::cin>>opcja;
         std::cout<<"Pesel: ";
         std::cin>>temp_pesel;
 
-        //pitstop konczymy tutaj
-        utworzKonto(std::string temp_login, std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, int temp_pesel)
+        silnikSystemu.utworzKonto(temp_login, temp_haslo, temp_imie, temp_nazwisko, temp_pesel);
+
+        czyscEkran();
+        std::cout<<"Pomyślnie utworzono konto. Proszę się zalogować."<<"\n";
+
     }
     else
     {

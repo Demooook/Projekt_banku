@@ -14,9 +14,3 @@ Uzytkownik::Uzytkownik(int pom_id_uzytkownika, std::string pom_login, std::strin
     login=pom_login;
     haslo=pom_haslo;
 }
-
-void Uzytkownik::Logowanie(std::string pom_login, std::string pom_haslo)
-{
-
-    
-}
