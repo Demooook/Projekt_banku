@@ -11,6 +11,6 @@ class System
         int nastepne_id=0;
     public:
         void utworzKonto(std::string temp_login,std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, std::string temp_pesel);
-        void Logowanie(std::string login, std::string haslo);
+        bool Logowanie(std::string wpisany_login, std::string wpisany_haslo);
 
 };

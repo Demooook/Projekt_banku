@@ -11,4 +11,8 @@ class Uzytkownik
     public:
         Uzytkownik();
         Uzytkownik(int id_uzytkownika, std::string login, std::string haslo);
+
+        //gettery
+        std::string getLogin() {return login;}
+        std::string getHaslo() {return haslo;}
 };

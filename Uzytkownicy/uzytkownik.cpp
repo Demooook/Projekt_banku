@@ -8,9 +8,9 @@ Uzytkownik::Uzytkownik()
     haslo="Nieznany";
 };
 
-Uzytkownik::Uzytkownik(int pom_id_uzytkownika, std::string pom_login, std::string pom_haslo)
+Uzytkownik::Uzytkownik(int temp_id_uzytkownika, std::string temp_login, std::string temp_haslo)
 {
-    id_uzytkownika=pom_id_uzytkownika;
-    login=pom_login;
-    haslo=pom_haslo;
+    id_uzytkownika=temp_id_uzytkownika;
+    login=temp_login;
+    haslo=temp_haslo;
 }
