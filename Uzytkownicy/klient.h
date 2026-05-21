@@ -1,14 +1,16 @@
 #pragma once
 
 #include "uzytkownik.h"
+#include "../Konta/konto.h"
 
 #include <string>
 #include <vector>
+#include <memory>
 
 class Klient : public Uzytkownik
 {
     private:
-        std::vector <std::string> lista_kont;
+        std::vector <std::unique_ptr<Konto>> lista_kont;
         std::string imie;
         std::string nazwisko;
         std::string pesel;

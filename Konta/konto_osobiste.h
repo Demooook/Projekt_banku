@@ -2,5 +2,7 @@
 
 #include "konto.h"
 
-class Konto_osobiste : public Konto
-{};
+class KontoOsobiste : public Konto
+{
+
+};

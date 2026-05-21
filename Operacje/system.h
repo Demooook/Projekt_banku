@@ -9,8 +9,12 @@ class System
     private:
         std::vector<Klient> listaKlientow;
         int nastepne_id=0;
+        std::string zalogowany_login;
     public:
         void utworzKonto(std::string temp_login,std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, std::string temp_pesel);
         bool Logowanie(std::string wpisany_login, std::string wpisany_haslo);
+        void stworzTypKonta(int wybrana_opcja);
+        std::string getLogin() {return zalogowany_login; }
+
 
 };

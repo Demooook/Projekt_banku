@@ -1,4 +1,6 @@
 #include "system.h"
+#include "../Konta/konto_osobiste.h"
+#include <memory>
 #include <iostream>
 
 void System::utworzKonto(std::string temp_login, std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, std::string temp_pesel)
@@ -12,20 +14,34 @@ nastepne_id++;
 
 bool System::Logowanie(std::string wpisany_login, std::string wpisany_haslo)
 {
-    for (int i=0;i<=listaKlientow.size();i++)
+    for (int i=0;i<listaKlientow.size();i++)
     {
         std::string login_baza=listaKlientow[i].getLogin();
         std::string haslo_baza=listaKlientow[i].getHaslo();
 
         if(wpisany_login==login_baza && wpisany_haslo==haslo_baza)
         {
-            std::cout<<"Wpisales dobrze niech ci bedzie masz dostep"<<"\n";
+            zalogowany_login=wpisany_login;
             return true;
         }
         else
-        {
-            std::cout<<"Nieprawidlowe dane"<<"\n";
             return false;
-        }
+    }
+}
+void System::stworzTypKonta(int wybrana_opcja)
+{
+    if(wybrana_opcja==1)
+    {
+        auto nowe_konto= std::make_unique<KontoOsobiste>();
+
+        
+    }
+    else if (wybrana_opcja==2)
+    {
+
+    }
+    else if (wybrana_opcja==3)
+    {
+
     }
 }

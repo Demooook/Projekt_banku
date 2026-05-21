@@ -10,15 +10,16 @@ int opcja=0,temp_id_uzytkownika=0;
 
 
 czyscEkran();
-std::cout<<"Witamy w banku [Golden Fountain]"<<"\n";
+std::cout<<"Witamy w banku [Golden Fountain]\n";
 while(wyjscie==false)
 {
-std::cout<<"Zaloguj się (1) | Utworz nowe konto (2) | Wyjscie (3)"<<"\n";
+std::cout<<"Zaloguj się (1) | Utworz nowe konto (2) | Wyjscie (3)\n";
 std::cin>>opcja;
     if(opcja==1) //opcja 1 zaloguj się
     {
+        czyscEkran();
         menuLogowania();
-        wyjscie=true;
+        
     }
     else if(opcja==2) //opcja 2 rejestracja
     {
@@ -28,13 +29,13 @@ std::cin>>opcja;
     else if(opcja==3) //wyjscie
     {
         czyscEkran();
-        std::cout<<"Do widzenia!"<<"\n";
+        std::cout<<"Do widzenia!\n";
         wyjscie=true;
     }
     else //zabezpieczenie inputu
     {
         czyscEkran();
-        std::cout<<"Nieprawidłowa opcja"<<"\n";
+        std::cout<<"Nieprawidłowa opcja\n";
     }
         
 }
@@ -42,10 +43,9 @@ std::cin>>opcja;
 
 void Ui::menuLogowania()
 {
-    std::string wpisany_login,wpisany_haslo,
-    czyscEkran();
+        std::string wpisany_login,wpisany_haslo;
 
-        std::cout<<"Proszę się zalogować:"<<"\n";
+        std::cout<<"Proszę się zalogować:\n";
         std::cout<<"Login:"<<"\n";
         std::cin>>wpisany_login;
         std::cout<<"Haslo:"<<"\n";
@@ -54,11 +54,19 @@ void Ui::menuLogowania()
         if(silnikSystemu.Logowanie(wpisany_login, wpisany_haslo) == true)
         {
             wyjscie=true;
+            czyscEkran();
+            std::cout<<"Poprawnie zalogowano!\n";
+            przerywnik();
+            menuGlowne(silnikSystemu.getLogin());
             //wtedy wyswietlamy menu glowne
         }
         else
-            std::cout<<"Placeholder";
+        {
+            std::cout<<"Niepoprawne dane logowania.\n";
+            przerywnik();
             //nie wyswietlamy
+        }
+            
 
         
 }
@@ -86,7 +94,38 @@ void Ui::menuRejestracji()
 
 }
 
+void Ui::menuGlowne(std::string zalogowany_login)
+{
+    int opcja;
+
+    while(wyjscie==false)
+    {
+        std::cout<<"PANEL KLIENTA ["<<zalogowany_login<<"]\n";
+        std::cout<<"Aktualne konto :"<<"konto \n";
+        std::cout<<"Zarzadzanie moimi kontami (1) | Sprawdz saldo (2) | Wplac/wyplac pieniadze (3) | Przelew (4) | Historia transakcji (5) | Wyloguj się (6) \n";
+        std::cin>>opcja;
+
+        switch (opcja)
+        {
+            default: std::cout<<"Nieprawidlowa opcja \n";
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+        }
+          
+    }
+    
+}
+
 void Ui::czyscEkran()
 {
     std::cout << "\033[2J\033[3J\033[1;1H";
+}
+
+void Ui::przerywnik()
+{
+    std::cout<<"------------------------------------\n";
 }
