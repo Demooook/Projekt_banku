@@ -108,7 +108,7 @@ void Ui::menuGlowne(std::string zalogowany_login)
         switch (opcja)
         {
             default: std::cout<<"Nieprawidlowa opcja \n";
-            case 1:
+            case 1: //ogolny zarzad kontem - tworzenie usuwanie etc.
             case 2:
             case 3:
             case 4:

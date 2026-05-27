@@ -23,5 +23,6 @@ class Klient : public Uzytkownik
             imie=temp_imie;
             nazwisko=temp_nazwisko;
             pesel=temp_pesel;
-        }
+        };
+        void dodajKonto(std::unique_ptr<Konto> nowe_konto);
 };

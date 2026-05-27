@@ -2,7 +2,7 @@
 
 #include "konto.h"
 
-class Konto_kredytowe : public Konto
+class KontoKredytowe : public Konto
 {
     private:
         double limit_debetu;

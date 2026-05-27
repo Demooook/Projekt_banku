@@ -2,7 +2,7 @@
 
 #include "konto.h"
 
-class Konto_oszczednosciowe : public Konto
+class KontoOszczednosciowe : public Konto
 {
     private:
         double oprocentowanie;
