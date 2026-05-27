@@ -109,6 +109,7 @@ void Ui::menuGlowne(std::string zalogowany_login)
         {
             default: std::cout<<"Nieprawidlowa opcja \n";
             case 1: //ogolny zarzad kontem - tworzenie usuwanie etc.
+
             case 2:
             case 3:
             case 4:
@@ -118,6 +119,34 @@ void Ui::menuGlowne(std::string zalogowany_login)
           
     }
     
+}
+
+void Ui::podmenuZarzadzanie()
+{
+    int opcja;
+    while(wyjscie=false)
+    {
+        std::cout<<"ZARZADZANIE KONTEM \n";
+        std::cout<<"Dodaj nowy typ konta (1) | Usun biezacy typ konta (2) | Zamknij konto (3) \n";
+        std::cin>>opcja;
+        if(opcja==1)
+        {
+            std::cout<<"Wybierz typ konta\n";
+            std::cout<<"Osobiste (1) | Kredytowe (2) | Oszczednosciowe (3) \n";
+            std::cin>>opcja;
+            silnikSystemu.stworzTypKonta(opcja);
+        }
+        else if(opcja==2)
+        {
+
+        }
+        else if(opcja==3)
+        {
+
+        }
+    }
+
+        
 }
 
 void Ui::czyscEkran()

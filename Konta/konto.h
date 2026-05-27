@@ -12,6 +12,6 @@ class Konto
         Konto(int numer_konta, double saldo, std::vector<int> historia);
         bool wplac(double kwota);
         bool wyplac(double kwota);
-        double wyswietlStan();
+        double getSaldo() {return saldo;}
 
 };

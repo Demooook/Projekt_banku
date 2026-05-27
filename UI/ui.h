@@ -14,4 +14,5 @@ class Ui
         void menuLogowania();
         void menuRejestracji();
         void menuGlowne(std::string zalogowany_login);
+        void podmenuZarzadzanie();
 };

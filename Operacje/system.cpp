@@ -1,4 +1,5 @@
 #include "system.h"
+#include "../Uzytkownicy/klient.h"
 #include "../Konta/konto_osobiste.h"
 #include "../Konta/konto_kredytowe.h"
 #include "../Konta/konto_oszczednosciowe.h"

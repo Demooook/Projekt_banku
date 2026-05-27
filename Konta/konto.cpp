@@ -21,8 +21,3 @@ bool Konto::wyplac(double kwota)
     if(kwota>0)
         saldo-=kwota;
 }
-
-double Konto::wyswietlStan()
-{
-    return saldo;
-}
