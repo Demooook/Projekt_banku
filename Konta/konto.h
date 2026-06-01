@@ -10,6 +10,8 @@ class Konto
         std::vector<int> historia;
     public:
         Konto(int numer_konta, double saldo, std::vector<int> historia);
+        Konto();
+        virtual void wyswietlInfo();
         bool wplac(double kwota);
         bool wyplac(double kwota);
         double getSaldo() {return saldo;}

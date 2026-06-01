@@ -4,5 +4,6 @@
 
 class KontoOsobiste : public Konto
 {
-
+    public:
+        void wyswietlInfo() override;
 };

@@ -6,7 +6,6 @@ class Ui
 {
     private:
     System silnikSystemu;
-    bool wyjscie=false;
     public:
         void start();
         void przerywnik();

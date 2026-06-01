@@ -7,7 +7,7 @@
 void Ui::start()
 {
 int opcja=0,temp_id_uzytkownika=0;
-
+bool wyjscie=false;
 
 czyscEkran();
 std::cout<<"Witamy w banku [Golden Fountain]\n";
@@ -43,6 +43,7 @@ std::cin>>opcja;
 
 void Ui::menuLogowania()
 {
+bool wyjscie=false;
         std::string wpisany_login,wpisany_haslo;
 
         std::cout<<"Proszę się zalogować:\n";
@@ -73,6 +74,7 @@ void Ui::menuLogowania()
 
 void Ui::menuRejestracji()
 {
+bool wyjscie=false;
     std::string wpisany_login,wpisany_haslo, temp_imie,temp_nazwisko,temp_pesel;
     czyscEkran();
         std::cout<<"Aby utworzyc twoje konto potrzebujemy ponizszych informacji:"<<"\n";
@@ -97,24 +99,33 @@ void Ui::menuRejestracji()
 void Ui::menuGlowne(std::string zalogowany_login)
 {
     int opcja;
+bool wyjscie=false;
 
     while(wyjscie==false)
     {
         std::cout<<"PANEL KLIENTA ["<<zalogowany_login<<"]\n";
-        std::cout<<"Aktualne konto :"<<"konto \n";
+        std::cout<<"Aktualne konto :"<<"Tu bedzie pokazane aktualne konto \n";
+        przerywnik();
         std::cout<<"Zarzadzanie moimi kontami (1) | Sprawdz saldo (2) | Wplac/wyplac pieniadze (3) | Przelew (4) | Historia transakcji (5) | Wyloguj się (6) \n";
         std::cin>>opcja;
 
         switch (opcja)
         {
-            default: std::cout<<"Nieprawidlowa opcja \n";
+            default: std::cout<<"Nieprawidlowa opcja \n"; break;
             case 1: //ogolny zarzad kontem - tworzenie usuwanie etc.
+            czyscEkran();
+            podmenuZarzadzanie(); 
+            break; 
 
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
+            case 2: break;
+            case 3: break;
+            case 4: break;
+            case 5: break;
+            case 6: 
+            czyscEkran();
+            std::cout<<"Wylogowano\n";
+            wyjscie=true;
+            break;
         }
           
     }
@@ -123,30 +134,42 @@ void Ui::menuGlowne(std::string zalogowany_login)
 
 void Ui::podmenuZarzadzanie()
 {
+bool wyjscie=false;
     int opcja;
-    while(wyjscie=false)
+    while(wyjscie==false)
     {
         std::cout<<"ZARZADZANIE KONTEM \n";
-        std::cout<<"Dodaj nowy typ konta (1) | Usun biezacy typ konta (2) | Zamknij konto (3) \n";
+        std::cout<<"Dodaj nowy typ konta (1) | Usun biezacy typ konta (2) | Wyswietl posiadane konta (3) | Zamknij konto (4) | Wyjscie (5) \n";
         std::cin>>opcja;
-        if(opcja==1)
-        {
+        switch(opcja){
+        default: 
+            std::cout<<"Nieprawidlowa opcja\n";
+        break;
+        case 1: 
             std::cout<<"Wybierz typ konta\n";
             std::cout<<"Osobiste (1) | Kredytowe (2) | Oszczednosciowe (3) \n";
             std::cin>>opcja;
-            silnikSystemu.stworzTypKonta(opcja);
-        }
-        else if(opcja==2)
-        {
-
-        }
-        else if(opcja==3)
-        {
+            if(silnikSystemu.stworzTypKonta(opcja)==true)
+            {
+                czyscEkran();
+                std::cout<<"Pomyslnie utworzono konto\n";
+                wyjscie=true;
+            }
+        break;
+        case 2:
+            
+        break;
+        case 3: 
+            czyscEkran();
+            silnikSystemu.wyswietlKonta();
+        break;
+        case 4: break;
+        case 5: 
+        wyjscie=true; 
+        break;
 
         }
     }
-
-        
 }
 
 void Ui::czyscEkran()

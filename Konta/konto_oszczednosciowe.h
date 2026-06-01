@@ -8,5 +8,6 @@ class KontoOszczednosciowe : public Konto
         double oprocentowanie;
     public:
         void naliczOdsetki(double saldo);
+        void wyswietlInfo() override;
 };
     

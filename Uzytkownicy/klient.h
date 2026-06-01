@@ -25,5 +25,5 @@ class Klient : public Uzytkownik
             pesel=temp_pesel;
         };
         void dodajKonto(std::unique_ptr<Konto> nowe_konto);
-        void wyswietlInfo();
+        void wyswietlInfoKont();
 };
