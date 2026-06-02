@@ -19,6 +19,7 @@ bool Konto::wplac(double kwota)
         saldo+=kwota;
         return true;
     }
+
     return false;
         
 }

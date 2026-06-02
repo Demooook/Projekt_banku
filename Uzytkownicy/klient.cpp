@@ -28,3 +28,16 @@ std::string Klient::getNumerKonta(int pom_indeks)
 {
    return lista_kont[pom_indeks]->getNumer();
 }
+
+bool Klient::wplacNaKonto(double kwota, std::string numer_konta)
+{
+    for (int i=0;i<lista_kont.size();i++)
+    {
+        if(lista_kont[i]->getNumer()==numer_konta)
+        {
+            lista_kont[i]->wplac(kwota);
+            return true;
+        }  
+    }
+    return false;
+}

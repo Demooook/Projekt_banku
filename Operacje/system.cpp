@@ -96,3 +96,11 @@ void System::setIdLogowania(int wpisane_id)
 {
     id_logowania=wpisane_id;
 }
+
+bool System::systemWplac(double kwota, std::string podany_numer_konta)
+{
+    if(listaKlientow[id_logowania].wplacNaKonto(kwota,podany_numer_konta)==true)
+        return true;
+    else 
+        return false;
+}

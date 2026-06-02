@@ -21,5 +21,6 @@ class System
         std::string getLogin() {return zalogowany_login; }
         int getIdLogowania() {return id_logowania;}
         void setIdLogowania(int wpisane_id);
+        bool systemWplac(double kwota, std::string podany_numer_konta);
 
 };

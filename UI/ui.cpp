@@ -98,8 +98,9 @@ bool wyjscie=false;
 
 void Ui::menuGlowne(std::string zalogowany_login)
 {
-    int opcja;
-bool wyjscie=false;
+    int opcja=-1, kwota=0;
+    bool wyjscie=false;
+    std::string podany_nr_konta="";
 while(silnikSystemu.getIdLogowania()!=-1)
 {
         std::cout<<"PANEL KLIENTA ["<<zalogowany_login<<"]\n";
@@ -118,7 +119,37 @@ while(silnikSystemu.getIdLogowania()!=-1)
                 podmenuZarzadzanie(); 
             break; 
             case 2: break;
-            case 3: break;
+            case 3: 
+                czyscEkran();
+                while(wyjscie==false)
+                {
+                    std::cout<<"Wplata (1) | Wyplata (2) | Wyjscie (3)\n";
+                    std::cin>>opcja;
+                    switch (opcja)
+                    {
+                    default:
+                        std::cout<<"Nieprawidlowa opcja" ;
+                    break;
+                    case 1:
+                        std::cout<<"Podaj numer konta do wplaty\n";
+                        std::cin>>podany_nr_konta;
+                        std::cout<<"Podaj kwotę do wplacenia \n";
+                        std::cin>>kwota;
+                        if(silnikSystemu.systemWplac(kwota,podany_nr_konta)==true)
+                            std::cout<<"Wplacono "<<kwota<<" na konto: "<<podany_nr_konta<<"\n";
+                        else
+                            std::cout<<"Platnosc nie powiodla sie\n";
+                    break;
+                    case 2:
+
+                    break;
+                    case 3:
+                        wyjscie=true;
+                    break;
+                    }
+                }
+
+            break;
             case 4: break;
             case 5: break;
             case 6: 
@@ -177,7 +208,7 @@ void Ui::podmenuZarzadzanie()
         case 4: 
             czyscEkran();
             silnikSystemu.usunCaleKonto();
-            std::cout<<"USUNIETO CALE KONTOOOO \n";
+            std::cout<<"Usunieto cale konto \n";
             wyjscie=true;
         break;
         case 5: 
