@@ -100,9 +100,8 @@ void Ui::menuGlowne(std::string zalogowany_login)
 {
     int opcja;
 bool wyjscie=false;
-
-    while(wyjscie==false)
-    {
+while(silnikSystemu.getIdLogowania()!=-1)
+{
         std::cout<<"PANEL KLIENTA ["<<zalogowany_login<<"]\n";
         std::cout<<"Aktualne konto :"<<"Tu bedzie pokazane aktualne konto \n";
         przerywnik();
@@ -111,24 +110,25 @@ bool wyjscie=false;
 
         switch (opcja)
         {
-            default: std::cout<<"Nieprawidlowa opcja \n"; break;
+            default: 
+                std::cout<<"Nieprawidlowa opcja \n"; 
+            break;
             case 1: //ogolny zarzad kontem - tworzenie usuwanie etc.
-            czyscEkran();
-            podmenuZarzadzanie(); 
+                czyscEkran();
+                podmenuZarzadzanie(); 
             break; 
-
             case 2: break;
             case 3: break;
             case 4: break;
             case 5: break;
             case 6: 
-            czyscEkran();
-            std::cout<<"Wylogowano\n";
-            wyjscie=true;
-            break;
+                czyscEkran();
+                std::cout<<"Wylogowano\n";
+                silnikSystemu.setIdLogowania(-1);
+            break; 
         }
-          
-    }
+}
+    
     
 }
 
@@ -174,7 +174,12 @@ void Ui::podmenuZarzadzanie()
             czyscEkran();
             silnikSystemu.wyswietlKonta();
         break;
-        case 4: break;
+        case 4: 
+            czyscEkran();
+            silnikSystemu.usunCaleKonto();
+            std::cout<<"USUNIETO CALE KONTOOOO \n";
+            wyjscie=true;
+        break;
         case 5: 
         wyjscie=true; 
         break;

@@ -16,7 +16,10 @@ class System
         bool Logowanie(std::string wpisany_login, std::string wpisany_haslo);
         bool stworzTypKonta(int wybrana_opcja);
         bool usunTypKonta(std::string wybrany_nr_konta);
+        void usunCaleKonto();
         void wyswietlKonta();
         std::string getLogin() {return zalogowany_login; }
+        int getIdLogowania() {return id_logowania;}
+        void setIdLogowania(int wpisane_id);
 
 };

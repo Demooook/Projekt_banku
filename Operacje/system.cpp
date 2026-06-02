@@ -81,8 +81,18 @@ bool System::usunTypKonta(std::string wybrany_nr_konta)
     }
     return false;
 }
+void System::usunCaleKonto()
+{
+    listaKlientow.erase(listaKlientow.begin()+id_logowania);
+    id_logowania=-1;
+}
 
 void System::wyswietlKonta()
 {
     listaKlientow[id_logowania].wyswietlInfoKont();
+}
+
+void System::setIdLogowania(int wpisane_id)
+{
+    id_logowania=wpisane_id;
 }
