@@ -25,5 +25,9 @@ class Klient : public Uzytkownik
             pesel=temp_pesel;
         };
         void dodajKonto(std::unique_ptr<Konto> nowe_konto);
+        void usunKonto(int pom_indeks);
         void wyswietlInfoKont();
+        int getIleKont(){return lista_kont.size();}
+        std::string getNumerKonta(int pom_indeks);
+
 };

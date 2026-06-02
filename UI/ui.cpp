@@ -134,8 +134,9 @@ bool wyjscie=false;
 
 void Ui::podmenuZarzadzanie()
 {
-bool wyjscie=false;
+    bool wyjscie=false;
     int opcja;
+    std::string wpisany_nr_konta;
     while(wyjscie==false)
     {
         std::cout<<"ZARZADZANIE KONTEM \n";
@@ -145,7 +146,7 @@ bool wyjscie=false;
         default: 
             std::cout<<"Nieprawidlowa opcja\n";
         break;
-        case 1: 
+        case 1: //DODAJ NOWY TYP KONTA
             std::cout<<"Wybierz typ konta\n";
             std::cout<<"Osobiste (1) | Kredytowe (2) | Oszczednosciowe (3) \n";
             std::cin>>opcja;
@@ -156,8 +157,18 @@ bool wyjscie=false;
                 wyjscie=true;
             }
         break;
-        case 2:
-            
+        case 2: //USUN TYP KONTA
+            czyscEkran();
+            silnikSystemu.wyswietlKonta();
+            std::cout<<"Wybierz konto do usunięcia: \n";
+            std::cin>>wpisany_nr_konta;
+            if (silnikSystemu.usunTypKonta(wpisany_nr_konta) == true)
+                std::cout<<"Poprawnie usunięto konto o numerze: PL"<<wpisany_nr_konta<<"\n";
+            else
+                std::cout<<"Niepoprawny nr konta\n";
+
+
+
         break;
         case 3: 
             czyscEkran();

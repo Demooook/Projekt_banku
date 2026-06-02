@@ -8,4 +8,5 @@ class KontoKredytowe : public Konto
         double limit_debetu;
     public:
         void wyswietlInfo() override;
+        KontoKredytowe(std::string pom_numer);
 };

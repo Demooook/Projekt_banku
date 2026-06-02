@@ -18,3 +18,13 @@ void Klient::wyswietlInfoKont()
         lista_kont[i]->wyswietlInfo();
     }
 }
+
+void Klient::usunKonto(int pom_indeks)
+{
+    lista_kont.erase(lista_kont.begin()+pom_indeks);
+}
+
+std::string Klient::getNumerKonta(int pom_indeks)
+{
+   return lista_kont[pom_indeks]->getNumer();
+}

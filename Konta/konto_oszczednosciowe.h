@@ -7,6 +7,7 @@ class KontoOszczednosciowe : public Konto
     private:
         double oprocentowanie;
     public:
+        KontoOszczednosciowe(std::string pom_numer);
         void naliczOdsetki(double saldo);
         void wyswietlInfo() override;
 };

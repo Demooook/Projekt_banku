@@ -9,5 +9,10 @@ void naliczOdsetki(double saldo)
 
 void KontoOszczednosciowe::wyswietlInfo()
 {
-    std::cout<<"Konto Oszczednosciowe | saldo:"<<getSaldo()<<"\n";
+    std::cout<<"["<<getNumer()<<"]"<<"Konto Oszczednosciowe | saldo: "<<getSaldo()<<"\n";
+}
+
+KontoOszczednosciowe::KontoOszczednosciowe(std::string pom_numer) : Konto(pom_numer)
+{
+    
 }

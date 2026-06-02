@@ -3,5 +3,10 @@
 
 void KontoOsobiste::wyswietlInfo()
 {
-    std::cout<<"Konto Osobiste | saldo:"<<getSaldo()<<"\n";
+   std::cout<<"["<<getNumer()<<"]"<<"Konto Osobiste| saldo: "<<getSaldo()<<"\n";
+}
+
+KontoOsobiste::KontoOsobiste(std::string pom_numer) : Konto(pom_numer)
+{
+    
 }

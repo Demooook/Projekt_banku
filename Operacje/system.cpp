@@ -35,9 +35,12 @@ bool System::Logowanie(std::string wpisany_login, std::string wpisany_haslo)
 }
 bool System::stworzTypKonta(int wybrana_opcja)
 {
+    int ileKont = listaKlientow[id_logowania].getIleKont();
+    std::string temp_numer_konta= "PL" + std::to_string(ileKont);
+
     if (wybrana_opcja == 1) // osobiste
     {
-        auto nowe_konto = std::make_unique<KontoOsobiste>();
+        auto nowe_konto = std::make_unique<KontoOsobiste>(temp_numer_konta);
 
         listaKlientow[id_logowania].dodajKonto(std::move(nowe_konto));
 
@@ -45,7 +48,7 @@ bool System::stworzTypKonta(int wybrana_opcja)
     }
     else if (wybrana_opcja == 2) // kredytowe
     {
-        auto nowe_konto = std::make_unique<KontoKredytowe>();
+        auto nowe_konto = std::make_unique<KontoKredytowe>(temp_numer_konta);
 
         listaKlientow[id_logowania].dodajKonto(std::move(nowe_konto));
         
@@ -53,13 +56,29 @@ bool System::stworzTypKonta(int wybrana_opcja)
     }
     else if (wybrana_opcja == 3) // oszczednosciowe
     {
-        auto nowe_konto = std::make_unique<KontoOszczednosciowe>();
+        auto nowe_konto = std::make_unique<KontoOszczednosciowe>(temp_numer_konta);
 
         listaKlientow[id_logowania].dodajKonto(std::move(nowe_konto));
 
         return true;
     }
 
+    return false;
+}
+
+bool System::usunTypKonta(std::string wybrany_nr_konta)
+{
+    std::string porownanie_nr= "PL"+ wybrany_nr_konta;
+    for (int i=0; i<listaKlientow[id_logowania].getIleKont();i++)
+    {
+        if(porownanie_nr==listaKlientow[id_logowania].getNumerKonta(i))
+        {
+            listaKlientow[id_logowania].usunKonto(i);
+
+            return true;
+        }
+
+    }
     return false;
 }
 
