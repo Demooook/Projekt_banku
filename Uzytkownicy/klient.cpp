@@ -41,3 +41,16 @@ bool Klient::wplacNaKonto(double kwota, std::string numer_konta)
     }
     return false;
 }
+
+bool Klient::wyplacZKonta(double kwota, std::string numer_konta)
+{
+    for (int i=0;i<lista_kont.size();i++)
+    {
+        if(lista_kont[i]->getNumer()==numer_konta)
+        {
+            lista_kont[i]->wyplac(kwota);
+            return true;
+        }
+    }
+    return false;
+}

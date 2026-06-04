@@ -25,7 +25,7 @@ bool Konto::wplac(double kwota)
 }
 bool Konto::wyplac(double kwota)
 {
-    if(kwota>0)
+    if(kwota>0 && getSaldo()>0)
     {
         saldo-=kwota;
         return true;

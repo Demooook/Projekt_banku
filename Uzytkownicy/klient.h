@@ -28,6 +28,7 @@ class Klient : public Uzytkownik
         void usunKonto(int pom_indeks);
         void wyswietlInfoKont();
         bool wplacNaKonto(double kwota, std::string numer_konta);
+        bool wyplacZKonta(double kwota, std::string numer_konta);
         int getIleKont(){return lista_kont.size();}
         std::string getNumerKonta(int pom_indeks);
 

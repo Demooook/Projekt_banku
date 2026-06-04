@@ -100,15 +100,15 @@ void Ui::menuGlowne(std::string zalogowany_login)
 {
     int opcja=-1, kwota=0;
     bool wyjscie=false;
-    std::string podany_nr_konta="";
-while(silnikSystemu.getIdLogowania()!=-1)
-{
+    std::string podany_nr_konta="",podany_nr_wlasnego_konta="";
+    while(silnikSystemu.getIdLogowania()!=-1)
+    {
+        wyjscie=false;
         std::cout<<"PANEL KLIENTA ["<<zalogowany_login<<"]\n";
         std::cout<<"Aktualne konto :"<<"Tu bedzie pokazane aktualne konto \n";
         przerywnik();
         std::cout<<"Zarzadzanie moimi kontami (1) | Sprawdz saldo (2) | Wplac/wyplac pieniadze (3) | Przelew (4) | Historia transakcji (5) | Wyloguj się (6) \n";
         std::cin>>opcja;
-
         switch (opcja)
         {
             default: 
@@ -119,7 +119,7 @@ while(silnikSystemu.getIdLogowania()!=-1)
                 podmenuZarzadzanie(); 
             break; 
             case 2: break;
-            case 3: 
+            case 3: //WPLATY / WYPLATY
                 czyscEkran();
                 while(wyjscie==false)
                 {
@@ -130,7 +130,7 @@ while(silnikSystemu.getIdLogowania()!=-1)
                     default:
                         std::cout<<"Nieprawidlowa opcja" ;
                     break;
-                    case 1:
+                    case 1: //WPLATA 
                         std::cout<<"Podaj numer konta do wplaty\n";
                         std::cin>>podany_nr_konta;
                         std::cout<<"Podaj kwotę do wplacenia \n";
@@ -138,19 +138,34 @@ while(silnikSystemu.getIdLogowania()!=-1)
                         if(silnikSystemu.systemWplac(kwota,podany_nr_konta)==true)
                             std::cout<<"Wplacono "<<kwota<<" na konto: "<<podany_nr_konta<<"\n";
                         else
-                            std::cout<<"Platnosc nie powiodla sie\n";
+                            std::cout<<"Wplata nie powiodla sie";
                     break;
-                    case 2:
-
+                    case 2: //WYPLATA
+                        std::cout<<"Podaj numer konta z ktorego chcesz wyplacic\n";
+                        std::cin>>podany_nr_konta;
+                        std::cout<<"Podaj kwotę do wyplaty \n";
+                        std::cin>>kwota;
+                        if(silnikSystemu.systemWyplac(kwota,podany_nr_konta)==true)
+                            std::cout<<"Wyplacono "<<kwota<<"z konta: "<<podany_nr_konta<<"\n";
+                        else
+                            std::cout<<"Wyplata nie powiodla sie\n";
                     break;
-                    case 3:
+                    case 3: //WYJSCIE
                         wyjscie=true;
                     break;
                     }
                 }
 
             break;
-            case 4: break;
+            case 4: //PRZELEWY
+                std::cout<<"W celu wykonania przelewu Podaj numer konta z ktorego chcesz przelac\n";
+                std::cin>>podany_nr_wlasnego_konta;
+                std::cout<<"Nastepnie podaj kwotę\n";
+                std::cin>>kwota;
+                std::cout<<"Podaj nr konta odbiorcy\n";
+                std::cin>>podany_nr_konta;
+
+            break;
             case 5: break;
             case 6: 
                 czyscEkran();
@@ -163,7 +178,7 @@ while(silnikSystemu.getIdLogowania()!=-1)
     
 }
 
-void Ui::podmenuZarzadzanie()
+void Ui::podmenuZarzadzanie() //MENU ZARZADZANIA KONTEM 
 {
     bool wyjscie=false;
     int opcja;
@@ -197,22 +212,19 @@ void Ui::podmenuZarzadzanie()
                 std::cout<<"Poprawnie usunięto konto o numerze: PL"<<wpisany_nr_konta<<"\n";
             else
                 std::cout<<"Niepoprawny nr konta\n";
-
-
-
         break;
-        case 3: 
+        case 3: //WYSWIETL KONTA
             czyscEkran();
             silnikSystemu.wyswietlKonta();
         break;
-        case 4: 
+        case 4: //USUN CALE KONTO
             czyscEkran();
             silnikSystemu.usunCaleKonto();
             std::cout<<"Usunieto cale konto \n";
             wyjscie=true;
         break;
         case 5: 
-        wyjscie=true; 
+            wyjscie=true; 
         break;
 
         }

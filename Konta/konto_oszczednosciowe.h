@@ -10,5 +10,6 @@ class KontoOszczednosciowe : public Konto
         KontoOszczednosciowe(std::string pom_numer);
         void naliczOdsetki(double saldo);
         void wyswietlInfo() override;
+        bool wyplac(double kwota) override;
 };
     

@@ -104,3 +104,19 @@ bool System::systemWplac(double kwota, std::string podany_numer_konta)
     else 
         return false;
 }
+bool System::systemWyplac(double kwota, std::string podany_numer_konta)
+{
+    if(listaKlientow[id_logowania].wyplacZKonta(kwota,podany_numer_konta)==true)
+        return true;
+    else
+        return false;
+}
+
+void System::systemPrzelew(std::string podany_numer_wlasnego_konta,double kwota, std::string podany_numer_konta)
+{
+    for (int i=0; i<listaKlientow[id_logowania].getIleKont();i++)
+    {
+        if(listaKlientow[id_logowania].lista_kont[i]->getNumer()==podany_numer_wlasnego_konta)
+    }
+        
+}

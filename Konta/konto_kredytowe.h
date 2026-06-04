@@ -9,4 +9,5 @@ class KontoKredytowe : public Konto
     public:
         void wyswietlInfo() override;
         KontoKredytowe(std::string pom_numer);
+        bool wyplac(double kwota) override;
 };

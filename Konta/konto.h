@@ -13,8 +13,9 @@ class Konto
         Konto(std::string pom_numer_konta);
         virtual void wyswietlInfo();
         bool wplac(double kwota);
-        bool wyplac(double kwota);
+        virtual bool wyplac(double kwota);
         double getSaldo() {return saldo;}
+        void zmienSaldo(double kwota) {saldo+=kwota;}
         std::string getNumer() {return numer_konta;}
 
 };
