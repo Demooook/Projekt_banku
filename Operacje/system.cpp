@@ -3,6 +3,7 @@
 #include "../Konta/konto_osobiste.h"
 #include "../Konta/konto_kredytowe.h"
 #include "../Konta/konto_oszczednosciowe.h"
+#include "../Operacje/transakcje.h"
 #include <memory>
 #include <iostream>
 
@@ -27,15 +28,17 @@ bool System::Logowanie(std::string wpisany_login, std::string wpisany_haslo)
             zalogowany_login = wpisany_login;
             id_logowania = i;
             return true;
-        }
-        else
-            return false;
+        }      
     }
-    return 0;
+    return false;
 }
 bool System::stworzTypKonta(int wybrana_opcja)
 {
-    int ileKont = listaKlientow[id_logowania].getIleKont();
+    int ileKont = 0;
+    for (int i=0;i<listaKlientow.size();i++)
+    {
+        ileKont+=listaKlientow[i].getIleKont();
+    }
     std::string temp_numer_konta= "PL" + std::to_string(ileKont);
 
     if (wybrana_opcja == 1) // osobiste
@@ -112,11 +115,51 @@ bool System::systemWyplac(double kwota, std::string podany_numer_konta)
         return false;
 }
 
-void System::systemPrzelew(std::string podany_numer_wlasnego_konta,double kwota, std::string podany_numer_konta)
+bool System::systemPrzelew(std::string podany_numer_wlasnego_konta,double kwota, std::string podany_numer_konta)
 {
-    for (int i=0; i<listaKlientow[id_logowania].getIleKont();i++)
+    bool znaleziono_nadawce;
+    int id_odbiorcy=-1;
+    if (kwota<=0)
+        return false;
+
+    for (int i=0; i<listaKlientow[id_logowania].getIleKont();i++) //sprawdzanie wlasnych kont 
     {
-        if(listaKlientow[id_logowania].lista_kont[i]->getNumer()==podany_numer_wlasnego_konta)
+        if(listaKlientow[id_logowania].getNumerKonta(i)==podany_numer_wlasnego_konta) // sprawdzenie czy zgadza sie nasze podane konto
+        {
+            znaleziono_nadawce=true;
+           break;
+        }
     }
-        
+    
+    if(znaleziono_nadawce==false) 
+        return false;
+
+    for (int i=0;i<listaKlientow.size();i++) //przeszukanie kazdego klienta
+    {
+        for(int j=0;j<listaKlientow[i].getIleKont();j++) //przeszukanie kazdego konta
+        {
+            if(listaKlientow[i].getNumerKonta(j)==podany_numer_konta)
+            {
+                id_odbiorcy=i;
+                break;
+            }
+        }
+        if(id_odbiorcy!=-1) break;
+    }
+
+    if(listaKlientow[id_logowania].wyplacZKonta(kwota,podany_numer_wlasnego_konta)==true)
+    {
+        listaKlientow[id_odbiorcy].wplacNaKonto(kwota,podany_numer_konta);
+        Transakcja tOdbiorca(kwota, "05-2026", podany_numer_konta, "Przelew wychodzacy");
+        listaKlientow[id_odbiorcy].przekazTransakcje(podany_numer_wlasnego_konta,tOdbiorca);
+        Transakcja tNadawca(-kwota, "05-2026", podany_numer_wlasnego_konta, "Przelew przychodzacy");
+        listaKlientow[id_odbiorcy].przekazTransakcje(podany_numer_wlasnego_konta,tNadawca);
+        return true;
+    }
+    return false;
+
+}
+void System::systemWyswietlTransakcje(std::string podany_numer_konta)
+{
+    listaKlientow[id_logowania].wyswietlHistorieKlient(podany_numer_konta);
 }

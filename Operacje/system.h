@@ -23,5 +23,6 @@ class System
         void setIdLogowania(int wpisane_id);
         bool systemWplac(double kwota, std::string podany_numer_konta);
         bool systemWyplac(double kwota, std::string podany_numer_konta);
-        void systemPrzelew(std::string podany_numer_wlasnego_konta, double kwota, std::string podany_numer_konta);
+        bool systemPrzelew(std::string podany_numer_wlasnego_konta, double kwota, std::string podany_numer_konta);
+        void systemWyswietlTransakcje(std::string podany_numer_konta);
 };

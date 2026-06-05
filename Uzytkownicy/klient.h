@@ -15,7 +15,7 @@ class Klient : public Uzytkownik
         std::string nazwisko;
         std::string pesel;
     public:
-        void wyswietlHistorie();
+        void wyswietlHistorieKlient(std::string podany_numer_konta);
         void zrobPrzelew(int nr_konta);
         Klient(int temp_id_uzytkownika, std::string temp_login, std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, std::string temp_pesel)
         : Uzytkownik (temp_id_uzytkownika,temp_login, temp_haslo)
@@ -31,5 +31,6 @@ class Klient : public Uzytkownik
         bool wyplacZKonta(double kwota, std::string numer_konta);
         int getIleKont(){return lista_kont.size();}
         std::string getNumerKonta(int pom_indeks);
+        void przekazTransakcje(std::string podany_numer_konta, Transakcja t);
 
 };

@@ -100,7 +100,7 @@ void Ui::menuGlowne(std::string zalogowany_login)
 {
     int opcja=-1, kwota=0;
     bool wyjscie=false;
-    std::string podany_nr_konta="",podany_nr_wlasnego_konta="";
+    std::string podany_nr_konta="",podany_nr_wlasnego_konta="",tytul_przelewu="";
     while(silnikSystemu.getIdLogowania()!=-1)
     {
         wyjscie=false;
@@ -164,9 +164,20 @@ void Ui::menuGlowne(std::string zalogowany_login)
                 std::cin>>kwota;
                 std::cout<<"Podaj nr konta odbiorcy\n";
                 std::cin>>podany_nr_konta;
+                if(silnikSystemu.systemPrzelew(podany_nr_wlasnego_konta,kwota,podany_nr_konta)==true)
+                    std::cout<<"Przelew powiodl sie\n";
+                else
+                    std::cout<<"Przelew nie wykonal się!\n";
+
 
             break;
-            case 5: break;
+            case 5: //HISTORIA TRANSAKCJI
+                czyscEkran();
+                std::cout<<"Podaj numer konta do wyswietlenia transakcj\n";
+                std::cin>>podany_nr_konta;
+                std::cout<<"Oto historia transakcji:\n";
+                silnikSystemu.systemWyswietlTransakcje(podany_nr_konta);
+            break;
             case 6: 
                 czyscEkran();
                 std::cout<<"Wylogowano\n";

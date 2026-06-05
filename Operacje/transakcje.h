@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Konta/konto.h"
-
+#include <string>
+#include <iostream>
 class Transakcja
 {
     private: 
@@ -10,5 +10,16 @@ class Transakcja
         std::string odbiorca;
         std::string tytul;
     public:
-        void getInfo(int id_konta);
+     Transakcja(){}
+     Transakcja(double temp_kwota, std::string temp_data, std::string temp_odbiorca, std::string temp_tytul) 
+        {
+        kwota = temp_kwota;
+        data = temp_data;
+        odbiorca = temp_odbiorca;
+        tytul = temp_tytul;
+        }
+    friend std::ostream& operator<<(std::ostream& os, const Transakcja& t) {
+    os << "Data: " << t.data << " | Kwota: " << t.kwota << " PLN | Odbiorca: " << t.odbiorca;
+    return os;
+}
 };
