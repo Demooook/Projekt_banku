@@ -43,7 +43,7 @@ std::cin>>opcja;
 
 void Ui::menuLogowania()
 {
-bool wyjscie=false;
+        bool wyjscie=false;
         std::string wpisany_login,wpisany_haslo;
 
         std::cout<<"Proszę się zalogować:\n";
@@ -52,7 +52,15 @@ bool wyjscie=false;
         std::cout<<"Haslo:"<<"\n";
         std::cin>>wpisany_haslo;
 
-        if(silnikSystemu.Logowanie(wpisany_login, wpisany_haslo) == true)
+        if(wpisany_login=="admin" && wpisany_haslo=="admin")     
+        {
+            wyjscie=true;
+            czyscEkran();
+            std::cout<<"Poprawnie zalogowano na konto admina\n";
+            przerywnik();
+            menuAdmina();
+        }
+        else if(silnikSystemu.Logowanie(wpisany_login, wpisany_haslo) == true)
         {
             wyjscie=true;
             czyscEkran();
@@ -239,6 +247,30 @@ void Ui::podmenuZarzadzanie() //MENU ZARZADZANIA KONTEM
         break;
 
         }
+    }
+}
+
+void Ui::menuAdmina()
+{
+    int opcja=-1;
+    std::cout<<"PANEL ADMINISTRATORA\n";
+    przerywnik();
+    std::cout<<"Zarzadzanie kontami klientow (1) | Przeglad wszystkich operacji (2) | Stworz raport podsumowujacy (3) | Wyjscie (4)\n";
+    std::cin>>opcja;
+    switch(opcja)
+    {
+        default: 
+            std::cout<<"Nieprawidlowa opcja\n"; 
+        break;
+        case 1:
+
+        break;
+        case 2:
+
+        break;
+        case 3:
+
+        break;
     }
 }
 

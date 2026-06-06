@@ -28,7 +28,7 @@ bool System::Logowanie(std::string wpisany_login, std::string wpisany_haslo)
             zalogowany_login = wpisany_login;
             id_logowania = i;
             return true;
-        }      
+        }
     }
     return false;
 }
