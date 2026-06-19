@@ -1,7 +1,8 @@
 #include <iostream>
-
+#include <fstream>
 #include "ui.h"
 #include "../Uzytkownicy/klient.h"
+
 
 
 void Ui::start()
@@ -253,26 +254,44 @@ void Ui::podmenuZarzadzanie() //MENU ZARZADZANIA KONTEM
 void Ui::menuAdmina()
 {
     int opcja=-1;
-    std::cout<<"PANEL ADMINISTRATORA\n";
-    przerywnik();
-    std::cout<<"Zarzadzanie kontami klientow (1) | Przeglad wszystkich operacji (2) | Stworz raport podsumowujacy (3) | Wyjscie (4)\n";
-    std::cin>>opcja;
-    switch(opcja)
+    bool wyjscie=false;
+    while(wyjscie==false)
     {
-        default: 
-            std::cout<<"Nieprawidlowa opcja\n"; 
-        break;
-        case 1:
-
-        break;
-        case 2:
-
-        break;
-        case 3:
-
-        break;
+        std::cout<<"PANEL ADMINISTRATORA\n";
+        przerywnik();
+        std::cout<<"Zarzadzanie kontami klientow (1) | Przeglad wszystkich operacji (2) | Stworz raport podsumowujacy (3) | Wyjscie (4)\n";
+        std::cin>>opcja;
+        switch(opcja)
+        {
+             default: 
+                std::cout<<"Nieprawidlowa opcja\n"; 
+            break;
+            case 1: //WYPIS KLIENTOW
+                czyscEkran();
+                std::cout<<"Aktualni klienci w bazie:\n";
+                silnikSystemu.ADMINWyswietlKonta();
+            break;
+            case 2: //HISTORIA WSZYSTKICH OPERACJI
+                czyscEkran();
+                std::cout<<"Historia wszystkich operacji w systemie:\n";
+                silnikSystemu.ADMINWyswietlHistorie();
+            break;
+            case 3: //RAPORT
+                czyscEkran();
+                silnikSystemu.ADMINRaport();
+            break;
+            case 4:
+                wyjscie=true;
+            break;
+        }
     }
+    
 }
+void System::zapis()
+{
+
+}
+void System::wczyt()
 
 void Ui::czyscEkran()
 {

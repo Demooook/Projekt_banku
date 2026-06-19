@@ -163,3 +163,54 @@ void System::systemWyswietlTransakcje(std::string podany_numer_konta)
 {
     listaKlientow[id_logowania].wyswietlHistorieKlient(podany_numer_konta);
 }
+
+void System::ADMINWyswietlKonta(){
+    std::cout<<"Aktualna ilosc kont: ["<<listaKlientow.size()<<"]\n";
+    for(int i=0;i<listaKlientow.size();i++)
+    {
+        listaKlientow[i].wyswietlInfoKont();
+    }
+}
+
+void System::ADMINWyswietlHistorie(){
+    int liczba_kont=0;
+    std::string temp_nr_konta;
+        for(int i=0;i<listaKlientow.size();i++)
+        {
+            liczba_kont+=listaKlientow[i].getIleKont();
+        }
+        for(int i=0;i<liczba_kont;i++)
+        {
+            temp_nr_konta="PL"+std::to_string(i);
+            for(int j=0;j<listaKlientow.size();j++)
+            {
+                listaKlientow[j].wyswietlHistorieKlient(temp_nr_konta);
+            }
+        }
+        
+}
+
+void System::ADMINRaport(){
+    double kapital=0.0;
+    int liczba_kont=0;
+
+    for(int i=0;i<listaKlientow.size();i++)
+    {
+        liczba_kont+=listaKlientow[i].getIleKont();
+        kapital+=listaKlientow[i].getKapitalKlient();
+    }
+
+    std::cout<<"RAPORT PODSUMOWUJACY: \n";
+    std::cout<<"Aktualna liczba klientow: "<<listaKlientow.size()<<"\n";
+    std::cout<<"Aktualna liczba aktywnych kont: "<<liczba_kont<<"\n";
+    std::cout<<"Laczny kapital w banku: "<<kapital<<"\n";
+}
+
+void System::zapisBazy()
+{
+
+}
+void System::wczytBazy()
+{
+    
+}

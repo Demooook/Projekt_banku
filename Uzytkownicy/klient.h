@@ -30,6 +30,7 @@ class Klient : public Uzytkownik
         bool wplacNaKonto(double kwota, std::string numer_konta);
         bool wyplacZKonta(double kwota, std::string numer_konta);
         int getIleKont(){return lista_kont.size();}
+        double getKapitalKlient();
         std::string getNumerKonta(int pom_indeks);
         void przekazTransakcje(std::string podany_numer_konta, Transakcja t);
 

@@ -3,6 +3,7 @@
 #include "../Uzytkownicy/klient.h"
 #include <string>
 #include <vector>
+#include <fstream>
 
 class System
 {
@@ -25,4 +26,9 @@ class System
         bool systemWyplac(double kwota, std::string podany_numer_konta);
         bool systemPrzelew(std::string podany_numer_wlasnego_konta, double kwota, std::string podany_numer_konta);
         void systemWyswietlTransakcje(std::string podany_numer_konta);
+        void ADMINWyswietlKonta();
+        void ADMINWyswietlHistorie();
+        void ADMINRaport();
+        void wczytBazy();
+        void zapisBazy();
 };

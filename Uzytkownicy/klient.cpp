@@ -13,7 +13,7 @@ void Klient::dodajKonto(std::unique_ptr<Konto> nowe_konto)
 
 void Klient::wyswietlInfoKont()
 {
-    std::cout<<"Posiadane konta: \n";
+    std::cout<<"Posiadane konta uzytkownika: "<< imie<<" "<<nazwisko<<"\n";
     for (int i=0; i<lista_kont.size();i++)
     {
         lista_kont[i]->wyswietlInfo();
@@ -79,4 +79,13 @@ void Klient::wyswietlHistorieKlient(std::string podany_numer_konta)
             lista_kont[i]->wyswietlHistorieKonto();
     }
     
+}
+double Klient::getKapitalKlient()
+{
+    double suma=0.0;
+    for (int i=0;i<lista_kont.size();i++)
+    {
+        suma+=lista_kont[i]->getSaldo();
+    }
+    return suma;
 }
