@@ -11,14 +11,25 @@ void System::utworzKonto(std::string temp_login, std::string temp_haslo, std::st
 {
     Klient nowy_klient(nastepne_id, temp_login, temp_haslo, temp_imie, temp_nazwisko, temp_pesel);
 
-    listaKlientow.push_back(std::move(nowy_klient));
+    Klient* nowa_lista = new Klient[liczba_klientow + 1];
+    
+    for (int i = 0; i < liczba_klientow; i++) 
+    {
+        nowa_lista[i] = std::move(listaKlientow[i]); 
+    }
+    
+    nowa_lista[liczba_klientow] = std::move(nowy_klient);
+    
+    delete[] listaKlientow;
+    listaKlientow = nowa_lista;
+    liczba_klientow++;
 
     nastepne_id++;
 }
 
 bool System::Logowanie(std::string wpisany_login, std::string wpisany_haslo)
 {
-    for (int i = 0; i < listaKlientow.size(); i++)
+    for (int i = 0; i < liczba_klientow; i++)
     {
         std::string login_baza = listaKlientow[i].getLogin();
         std::string haslo_baza = listaKlientow[i].getHaslo();
@@ -35,7 +46,7 @@ bool System::Logowanie(std::string wpisany_login, std::string wpisany_haslo)
 bool System::stworzTypKonta(int wybrana_opcja)
 {
     int ileKont = 0;
-    for (int i=0;i<listaKlientow.size();i++)
+    for (int i=0;i<liczba_klientow;i++)
     {
         ileKont+=listaKlientow[i].getIleKont();
     }
@@ -86,8 +97,27 @@ bool System::usunTypKonta(std::string wybrany_nr_konta)
 }
 void System::usunCaleKonto()
 {
-    listaKlientow.erase(listaKlientow.begin()+id_logowania);
-    id_logowania=-1;
+    if (liczba_klientow <= 0 || id_logowania < 0) return;
+
+   
+    Klient* nowa_lista = new Klient[liczba_klientow - 1];
+    int index_nowej = 0;
+
+   
+    for (int i = 0; i < liczba_klientow; i++) 
+    {
+        if (i != id_logowania) 
+        {
+            nowa_lista[index_nowej] = std::move(listaKlientow[i]);
+            index_nowej++;
+        }
+    }
+
+    delete[] listaKlientow;
+    listaKlientow = nowa_lista;
+    liczba_klientow--; 
+
+    id_logowania = -1;
 }
 
 void System::wyswietlKonta()
@@ -134,7 +164,7 @@ bool System::systemPrzelew(std::string podany_numer_wlasnego_konta,double kwota,
     if(znaleziono_nadawce==false) 
         return false;
 
-    for (int i=0;i<listaKlientow.size();i++) //przeszukanie kazdego klienta
+    for (int i=0;i<liczba_klientow;i++) //przeszukanie kazdego klienta
     {
         for(int j=0;j<listaKlientow[i].getIleKont();j++) //przeszukanie kazdego konta
         {
@@ -165,8 +195,8 @@ void System::systemWyswietlTransakcje(std::string podany_numer_konta)
 }
 
 void System::ADMINWyswietlKonta(){
-    std::cout<<"Aktualna ilosc kont: ["<<listaKlientow.size()<<"]\n";
-    for(int i=0;i<listaKlientow.size();i++)
+    std::cout<<"Aktualna ilosc kont: ["<<liczba_klientow<<"]\n";
+    for(int i=0;i<liczba_klientow;i++)
     {
         listaKlientow[i].wyswietlInfoKont();
     }
@@ -175,14 +205,14 @@ void System::ADMINWyswietlKonta(){
 void System::ADMINWyswietlHistorie(){
     int liczba_kont=0;
     std::string temp_nr_konta;
-        for(int i=0;i<listaKlientow.size();i++)
+        for(int i=0;i<liczba_klientow;i++)
         {
             liczba_kont+=listaKlientow[i].getIleKont();
         }
         for(int i=0;i<liczba_kont;i++)
         {
             temp_nr_konta="PL"+std::to_string(i);
-            for(int j=0;j<listaKlientow.size();j++)
+            for(int j=0;j<liczba_klientow;j++)
             {
                 listaKlientow[j].wyswietlHistorieKlient(temp_nr_konta);
             }
@@ -194,14 +224,14 @@ void System::ADMINRaport(){
     double kapital=0.0;
     int liczba_kont=0;
 
-    for(int i=0;i<listaKlientow.size();i++)
+    for(int i=0;i<liczba_klientow;i++)
     {
         liczba_kont+=listaKlientow[i].getIleKont();
         kapital+=listaKlientow[i].getKapitalKlient();
     }
 
     std::cout<<"RAPORT PODSUMOWUJACY: \n";
-    std::cout<<"Aktualna liczba klientow: "<<listaKlientow.size()<<"\n";
+    std::cout<<"Aktualna liczba klientow: "<<liczba_klientow<<"\n";
     std::cout<<"Aktualna liczba aktywnych kont: "<<liczba_kont<<"\n";
     std::cout<<"Laczny kapital w banku: "<<kapital<<"\n";
 }

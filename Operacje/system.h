@@ -8,11 +8,22 @@
 class System
 {
     private:
-        std::vector<Klient> listaKlientow;
+        Klient* listaKlientow; 
+        int liczba_klientow;
         int nastepne_id=0;
         int id_logowania;
         std::string zalogowany_login;
     public:
+        System()
+        {
+            listaKlientow=nullptr;
+            liczba_klientow=0;
+        }
+        ~System() 
+        {
+        delete[] listaKlientow;
+        }
+
         void utworzKonto(std::string temp_login,std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, std::string temp_pesel);
         bool Logowanie(std::string wpisany_login, std::string wpisany_haslo);
         bool stworzTypKonta(int wybrana_opcja);
@@ -21,6 +32,7 @@ class System
         void wyswietlKonta();
         std::string getLogin() {return zalogowany_login; }
         int getIdLogowania() {return id_logowania;}
+        int getLiczbaKlientow() {return liczba_klientow;}
         void setIdLogowania(int wpisane_id);
         bool systemWplac(double kwota, std::string podany_numer_konta);
         bool systemWyplac(double kwota, std::string podany_numer_konta);

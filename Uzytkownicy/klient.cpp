@@ -6,6 +6,13 @@
 
 #include <iostream>
 
+Klient::Klient()
+{
+    imie = "";
+    nazwisko = "";
+    pesel = "";
+}
+
 void Klient::dodajKonto(std::unique_ptr<Konto> nowe_konto) 
 {
     lista_kont.push_back(std::move(nowe_konto));

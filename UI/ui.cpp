@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include "ui.h"
 #include "../Uzytkownicy/klient.h"
 
@@ -287,11 +286,7 @@ void Ui::menuAdmina()
     }
     
 }
-void System::zapis()
-{
 
-}
-void System::wczyt()
 
 void Ui::czyscEkran()
 {

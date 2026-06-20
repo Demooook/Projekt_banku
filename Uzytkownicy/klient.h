@@ -17,6 +17,7 @@ class Klient : public Uzytkownik
     public:
         void wyswietlHistorieKlient(std::string podany_numer_konta);
         void zrobPrzelew(int nr_konta);
+        Klient();
         Klient(int temp_id_uzytkownika, std::string temp_login, std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, std::string temp_pesel)
         : Uzytkownik (temp_id_uzytkownika,temp_login, temp_haslo)
         {
