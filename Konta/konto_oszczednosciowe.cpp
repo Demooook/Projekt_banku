@@ -19,13 +19,27 @@ KontoOszczednosciowe::KontoOszczednosciowe(std::string pom_numer) : Konto(pom_nu
 
 bool KontoOszczednosciowe::wyplac(double kwota) 
 {
-    double oplata=5.0;
-    if(kwota>0 && (getSaldo()+oplata)>0)
+    double oplata = 5.0;
+
+    if(kwota > 0 && getSaldo() >= (kwota + oplata))
     {
-        double temp_saldo=getSaldo();
-        temp_saldo-=kwota+oplata;
-        zmienSaldo(-temp_saldo);
+        zmienSaldo(-(kwota + oplata));
         return true;
     }
+    std::cout << "Blad: Brak srodkow na wyplate i prowizje (5 PLN)!\n";
     return false;
+}
+
+void KontoOszczednosciowe::naliczOdsetki()
+{
+    if (getSaldo() > 0)
+    {
+        double zarobek = getSaldo() * 0.05;
+        zmienSaldo(zarobek);
+        
+        Transakcja t(zarobek, "05-2026", "Bank", "Naliczenie odsetek 5%");
+        dodajTransakcje(t);
+        
+        std::cout << "Naliczono " << zarobek << " PLN odsetek!\n";
+    }
 }

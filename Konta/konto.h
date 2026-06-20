@@ -14,11 +14,12 @@ class Konto
         Konto() { numer_konta = "0"; saldo = 0.0; historia = nullptr; liczba_transakcji = 0; }
         Konto(std::string pom_numer_konta);
         Konto(std::string pom_numer_konta, double pom_saldo, Transakcja *pom_historia, int pom_liczba_transakcji);
-        ~Konto()
+        virtual ~Konto()
         {
             delete[] historia;
         }
         virtual void wyswietlInfo();
+        virtual void naliczOdsetki() { }
         bool wplac(double kwota);
         virtual bool wyplac(double kwota);
         double getSaldo() {return saldo;}
@@ -27,5 +28,14 @@ class Konto
         void wyswietlHistorieKonto();
         int getLiczbaTransakcji() {return liczba_transakcji;}
         std::string getNumer() {return numer_konta;}
+        bool operator==(const Konto& inne_konto) const 
+        {
+            return this->numer_konta == inne_konto.numer_konta;
+        }
+
+        bool operator==(const std::string& sprawdzany_numer) const 
+        {
+            return this->numer_konta == sprawdzany_numer;
+        }
 
 };

@@ -65,6 +65,10 @@ void Konto::dodajTransakcje(Transakcja t)
 }
 void Konto::wyswietlHistorieKonto()
 {
+    if(liczba_transakcji==0)
+    {
+        std::cout<<"Brak historii\n";
+    }
     for(int i=0;i<liczba_transakcji;i++)
     {
         std::cout<<historia[i]<<"\n";

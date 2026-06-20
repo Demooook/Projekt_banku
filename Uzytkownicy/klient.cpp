@@ -21,6 +21,10 @@ void Klient::dodajKonto(std::unique_ptr<Konto> nowe_konto)
 void Klient::wyswietlInfoKont()
 {
     std::cout<<"Posiadane konta uzytkownika: "<< imie<<" "<<nazwisko<<"\n";
+    if (lista_kont.size()==0)
+    {
+        std::cout<<"Brak kont\n";
+    }
     for (int i=0; i<lista_kont.size();i++)
     {
         lista_kont[i]->wyswietlInfo();
@@ -37,14 +41,14 @@ std::string Klient::getNumerKonta(int pom_indeks)
    return lista_kont[pom_indeks]->getNumer();
 }
 
-bool Klient::wplacNaKonto(double kwota, std::string numer_konta)
+bool Klient::wplacNaKonto(double kwota, std::string numer_konta, std::string zrodlo, std::string opis)
 {
-    for (int i=0;i<lista_kont.size();i++)
+    for (int i=0; i<lista_kont.size(); i++)
     {
-        if(lista_kont[i]->getNumer()==numer_konta)
+        if(*lista_kont[i] == numer_konta)
         {
             lista_kont[i]->wplac(kwota);
-            Transakcja t(kwota, "05-2026", "Wplatomat", "Wplata gotowki");
+            Transakcja t(kwota, "05-2026", zrodlo, opis); 
             lista_kont[i]->dodajTransakcje(t);
             return true;
         }  
@@ -52,16 +56,22 @@ bool Klient::wplacNaKonto(double kwota, std::string numer_konta)
     return false;
 }
 
-bool Klient::wyplacZKonta(double kwota, std::string numer_konta)
+bool Klient::wyplacZKonta(double kwota, std::string numer_konta, std::string cel, std::string opis)
 {
-    for (int i=0;i<lista_kont.size();i++)
+    for (int i=0; i<lista_kont.size(); i++)
     {
-        if(lista_kont[i]->getNumer()==numer_konta)
+        if(*lista_kont[i] == numer_konta)
         {
-            lista_kont[i]->wyplac(kwota);
-            Transakcja t(kwota, "05-2026", "Bankomat", "Wyplata gotowki");
-            lista_kont[i]->dodajTransakcje(t);
-            return true;
+            if (lista_kont[i]->wyplac(kwota) == true) 
+            {
+                Transakcja t(kwota, "05-2026", cel, opis); 
+                lista_kont[i]->dodajTransakcje(t);
+                return true; 
+            }
+            else 
+            {
+                return false; 
+            }
         }
     }
     return false;
@@ -71,7 +81,7 @@ void Klient::przekazTransakcje(std::string podany_numer_konta, Transakcja t)
 {
     for(int i=0;i<getIleKont();i++)
     {
-        if(podany_numer_konta==getNumerKonta(i))
+        if(*lista_kont[i] == podany_numer_konta)
         {
             lista_kont[i]->dodajTransakcje(t);
         }
@@ -80,12 +90,21 @@ void Klient::przekazTransakcje(std::string podany_numer_konta, Transakcja t)
 }
 void Klient::wyswietlHistorieKlient(std::string podany_numer_konta)
 {
-    for(int i=0;i<lista_kont.size();i++)
+    bool znaleziono_konto = false;
+
+    for(int i = 0; i < lista_kont.size(); i++)
     {
-        if(podany_numer_konta==lista_kont[i]->getNumer())
+        if(*lista_kont[i] == podany_numer_konta)
+        {
             lista_kont[i]->wyswietlHistorieKonto();
+            znaleziono_konto = true;
+            break; 
+        }
     }
-    
+    if(znaleziono_konto == false)
+    {
+        std::cout << "Nieprawidlowy numer konta.\n";
+    }  
 }
 double Klient::getKapitalKlient()
 {
@@ -95,4 +114,12 @@ double Klient::getKapitalKlient()
         suma+=lista_kont[i]->getSaldo();
     }
     return suma;
+}
+
+void Klient::symulujMiesiac()
+{
+    for (int i = 0; i < lista_kont.size(); i++)
+    {
+        lista_kont[i]->naliczOdsetki();
+    }
 }

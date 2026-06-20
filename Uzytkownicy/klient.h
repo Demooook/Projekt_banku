@@ -28,11 +28,16 @@ class Klient : public Uzytkownik
         void dodajKonto(std::unique_ptr<Konto> nowe_konto);
         void usunKonto(int pom_indeks);
         void wyswietlInfoKont();
-        bool wplacNaKonto(double kwota, std::string numer_konta);
-        bool wyplacZKonta(double kwota, std::string numer_konta);
+        bool wplacNaKonto(double kwota, std::string numer_konta, std::string zrodlo = "Wplatomat", std::string opis = "Wplata gotowki");
+        bool wyplacZKonta(double kwota, std::string numer_konta, std::string cel = "Bankomat", std::string opis = "Wyplata gotowki");
+        std::string getImie(){return imie;}
+        std::string getNazwisko(){return nazwisko;}
+        std::string getPesel(){return pesel;}
         int getIleKont(){return lista_kont.size();}
         double getKapitalKlient();
         std::string getNumerKonta(int pom_indeks);
         void przekazTransakcje(std::string podany_numer_konta, Transakcja t);
+        void symulujMiesiac();
+        Konto* getKontoWskaznik(int pom_indeks) { return lista_kont[pom_indeks].get(); }
 
 };

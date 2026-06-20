@@ -8,17 +8,18 @@ void KontoKredytowe::wyswietlInfo()
 
 KontoKredytowe::KontoKredytowe(std::string pom_numer) : Konto(pom_numer)
 {
-    
+    limit_debetu=1000.0;   
 }
 
 bool KontoKredytowe::wyplac(double kwota)
 {
-    if(kwota >0 && (getSaldo() + limit_debetu)>=0)
+
+    if ((getSaldo() + limit_debetu) >= kwota)
     {
-        double temp_saldo=getSaldo();
-        temp_saldo-=kwota;
-        zmienSaldo(temp_saldo);
+        zmienSaldo(-kwota);
         return true;
     }
+    
+    std::cout << "Blad: Przekroczono limit kredytowy (maksymalny debet to " << limit_debetu << " PLN)!\n";
     return false;
 }

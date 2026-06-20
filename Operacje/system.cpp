@@ -7,8 +7,22 @@
 #include <memory>
 #include <iostream>
 
-void System::utworzKonto(std::string temp_login, std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, std::string temp_pesel)
+bool System::utworzKonto(std::string temp_login, std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, std::string temp_pesel)
 {
+    for (int i = 0; i < liczba_klientow; i++)
+    {
+        if (listaKlientow[i].getLogin() == temp_login)
+        {
+            std::cout << "Blad: Podany login jest juz zajety!\n";
+            return false;
+        }
+        if (listaKlientow[i].getPesel() == temp_pesel)
+        {
+            std::cout << "Blad: Klient o podanym numerze PESEL juz istnieje w bazie!\n";
+            return false;
+        }
+    }
+
     Klient nowy_klient(nastepne_id, temp_login, temp_haslo, temp_imie, temp_nazwisko, temp_pesel);
 
     Klient* nowa_lista = new Klient[liczba_klientow + 1];
@@ -23,8 +37,9 @@ void System::utworzKonto(std::string temp_login, std::string temp_haslo, std::st
     delete[] listaKlientow;
     listaKlientow = nowa_lista;
     liczba_klientow++;
+    nastepne_id++; 
 
-    nastepne_id++;
+    return true;
 }
 
 bool System::Logowanie(std::string wpisany_login, std::string wpisany_haslo)
@@ -45,47 +60,85 @@ bool System::Logowanie(std::string wpisany_login, std::string wpisany_haslo)
 }
 bool System::stworzTypKonta(int wybrana_opcja)
 {
-    int ileKont = 0;
-    for (int i=0;i<liczba_klientow;i++)
+    int ileKont = listaKlientow[id_logowania].getIleKont();
+
+    for (int i = 0; i < listaKlientow[id_logowania].getIleKont(); i++)
     {
-        ileKont+=listaKlientow[i].getIleKont();
+        Konto* sprawdzane_konto = listaKlientow[id_logowania].getKontoWskaznik(i);
+
+        if (wybrana_opcja == 1 && dynamic_cast<KontoOsobiste*>(sprawdzane_konto))
+        {
+            std::cout << "Blad: Posiadasz juz Konto Osobiste!\n";
+            return false; 
+        }
+        else if (wybrana_opcja == 2 && dynamic_cast<KontoKredytowe*>(sprawdzane_konto))
+        {
+            std::cout << "Blad: Posiadasz juz Konto Kredytowe!\n";
+            return false;
+        }
+        else if (wybrana_opcja == 3 && dynamic_cast<KontoOszczednosciowe*>(sprawdzane_konto))
+        {
+            std::cout << "Blad: Posiadasz juz Konto Oszczednosciowe!\n";
+            return false;
+        }
     }
-    std::string temp_numer_konta= "PL" + std::to_string(ileKont);
+
+    int najwyzszy_numer = 0;
+
+    for (int i = 0; i < liczba_klientow; i++)
+    {
+        for (int j = 0; j < listaKlientow[i].getIleKont(); j++)
+        {
+            std::string stary_numer = listaKlientow[i].getNumerKonta(j);
+            if (stary_numer.length() > 2)
+            {
+                try 
+                {
+                    std::string same_cyfry = stary_numer.substr(2); 
+                    int wartosc_konta = std::stoi(same_cyfry);
+
+                    if (wartosc_konta > najwyzszy_numer)
+                    {
+                        najwyzszy_numer = wartosc_konta;
+                    }
+                }
+                catch (const std::exception& e) 
+                {
+                }
+            }
+        }
+    }
+
+    int nowy_numer = najwyzszy_numer + 1;
+    std::string temp_numer_konta = "PL" + std::to_string(nowy_numer);
 
     if (wybrana_opcja == 1) // osobiste
     {
         auto nowe_konto = std::make_unique<KontoOsobiste>(temp_numer_konta);
-
         listaKlientow[id_logowania].dodajKonto(std::move(nowe_konto));
-
         return true;
     }
     else if (wybrana_opcja == 2) // kredytowe
     {
         auto nowe_konto = std::make_unique<KontoKredytowe>(temp_numer_konta);
-
         listaKlientow[id_logowania].dodajKonto(std::move(nowe_konto));
-        
         return true;
     }
     else if (wybrana_opcja == 3) // oszczednosciowe
     {
         auto nowe_konto = std::make_unique<KontoOszczednosciowe>(temp_numer_konta);
-
         listaKlientow[id_logowania].dodajKonto(std::move(nowe_konto));
-
         return true;
     }
-
+    
     return false;
 }
 
 bool System::usunTypKonta(std::string wybrany_nr_konta)
 {
-    std::string porownanie_nr= "PL"+ wybrany_nr_konta;
     for (int i=0; i<listaKlientow[id_logowania].getIleKont();i++)
     {
-        if(porownanie_nr==listaKlientow[id_logowania].getNumerKonta(i))
+        if(wybrany_nr_konta==listaKlientow[id_logowania].getNumerKonta(i))
         {
             listaKlientow[id_logowania].usunKonto(i);
 
@@ -147,47 +200,49 @@ bool System::systemWyplac(double kwota, std::string podany_numer_konta)
 
 bool System::systemPrzelew(std::string podany_numer_wlasnego_konta,double kwota, std::string podany_numer_konta)
 {
-    bool znaleziono_nadawce;
-    int id_odbiorcy=-1;
-    if (kwota<=0)
-        return false;
+    bool znaleziono_nadawce = false;
+    int id_odbiorcy = -1;
 
-    for (int i=0; i<listaKlientow[id_logowania].getIleKont();i++) //sprawdzanie wlasnych kont 
+    if (kwota <= 0) return false;
+
+    for (int i = 0; i < listaKlientow[id_logowania].getIleKont(); i++) 
     {
-        if(listaKlientow[id_logowania].getNumerKonta(i)==podany_numer_wlasnego_konta) // sprawdzenie czy zgadza sie nasze podane konto
+        if (listaKlientow[id_logowania].getNumerKonta(i) == podany_numer_wlasnego_konta) 
         {
-            znaleziono_nadawce=true;
-           break;
+            znaleziono_nadawce = true;
+            break;
         }
     }
     
-    if(znaleziono_nadawce==false) 
+    if (znaleziono_nadawce == false) 
         return false;
 
-    for (int i=0;i<liczba_klientow;i++) //przeszukanie kazdego klienta
+    for (int i = 0; i < liczba_klientow; i++) 
     {
-        for(int j=0;j<listaKlientow[i].getIleKont();j++) //przeszukanie kazdego konta
+        for (int j = 0; j < listaKlientow[i].getIleKont(); j++) 
         {
-            if(listaKlientow[i].getNumerKonta(j)==podany_numer_konta)
+            if (listaKlientow[i].getNumerKonta(j) == podany_numer_konta)
             {
-                id_odbiorcy=i;
+                id_odbiorcy = i;
                 break;
             }
         }
-        if(id_odbiorcy!=-1) break;
+        if (id_odbiorcy != -1) break;
     }
 
-    if(listaKlientow[id_logowania].wyplacZKonta(kwota,podany_numer_wlasnego_konta)==true)
+    if (id_odbiorcy == -1) 
     {
-        listaKlientow[id_odbiorcy].wplacNaKonto(kwota,podany_numer_konta);
-        Transakcja tOdbiorca(kwota, "05-2026", podany_numer_konta, "Przelew wychodzacy");
-        listaKlientow[id_odbiorcy].przekazTransakcje(podany_numer_wlasnego_konta,tOdbiorca);
-        Transakcja tNadawca(-kwota, "05-2026", podany_numer_wlasnego_konta, "Przelew przychodzacy");
-        listaKlientow[id_odbiorcy].przekazTransakcje(podany_numer_wlasnego_konta,tNadawca);
-        return true;
+        std::cout << "Blad: Nie znaleziono konta odbiorcy w systemie!\n";
+        return false;
     }
-    return false;
 
+    if (listaKlientow[id_logowania].wyplacZKonta(kwota, podany_numer_wlasnego_konta, podany_numer_konta, "Przelew wychodzacy"))
+    {
+        listaKlientow[id_odbiorcy].wplacNaKonto(kwota, podany_numer_konta, podany_numer_wlasnego_konta, "Przelew przychodzacy");   
+        return true; 
+    }
+    
+    return false;
 }
 void System::systemWyswietlTransakcje(std::string podany_numer_konta)
 {
@@ -238,9 +293,117 @@ void System::ADMINRaport(){
 
 void System::zapisBazy()
 {
+std::ofstream plik("baza_banku.txt");
+    if (!plik.is_open()) 
+    {
+        std::cout << "Blad: Nie mozna otworzyc pliku do zapisu!\n";
+        return;
+    }
+    plik << liczba_klientow << "\n";
 
+    for (int i = 0; i < liczba_klientow; i++)
+    {
+        plik << listaKlientow[i].getLogin() << " "
+             << listaKlientow[i].getHaslo() << " "
+             << listaKlientow[i].getImie() << " "
+             << listaKlientow[i].getNazwisko() << " "
+             << listaKlientow[i].getPesel() << " "
+             << listaKlientow[i].getIleKont() << "\n";
+
+        for (int j = 0; j < listaKlientow[i].getIleKont(); j++)
+        {
+            Konto* aktualne_konto = listaKlientow[i].getKontoWskaznik(j);
+            if (dynamic_cast<KontoOsobiste*>(aktualne_konto)) 
+            {
+                plik << "O " << aktualne_konto->getNumer() << " " << aktualne_konto->getSaldo() << "\n";
+            }
+            else if (dynamic_cast<KontoKredytowe*>(aktualne_konto)) 
+            {
+                plik << "K " << aktualne_konto->getNumer() << " " << aktualne_konto->getSaldo() << "\n";
+            }
+            else if (dynamic_cast<KontoOszczednosciowe*>(aktualne_konto)) 
+            {
+                plik << "S " << aktualne_konto->getNumer() << " " << aktualne_konto->getSaldo() << "\n";
+            }
+        }
+    }
+    
+    plik.close();
+    std::cout << "Baza zostala poprawnie zapisana do pliku baza_banku.txt\n";
 }
 void System::wczytBazy()
 {
-    
+    std::ifstream plik("baza_banku.txt");
+    if (!plik.is_open()) 
+    {
+        std::cout << "Blad: Brak pliku bazy lub nie mozna go otworzyc.\n";
+        return;
+    }
+
+    delete[] listaKlientow;
+    listaKlientow = nullptr;
+    liczba_klientow = 0;
+
+    int wczytana_liczba_klientow;
+    plik >> wczytana_liczba_klientow;
+
+    for (int i = 0; i < wczytana_liczba_klientow; i++)
+    {
+        std::string t_login, t_haslo, t_imie, t_nazwisko, t_pesel;
+        int t_ile_kont;
+        
+        plik >> t_login >> t_haslo >> t_imie >> t_nazwisko >> t_pesel >> t_ile_kont;
+
+        Klient wczytywany_klient(nastepne_id, t_login, t_haslo, t_imie, t_nazwisko, t_pesel);
+        nastepne_id++;
+
+        for (int j = 0; j < t_ile_kont; j++)
+        {
+            char typ_konta;
+            std::string t_numer;
+            double t_saldo;
+
+            plik >> typ_konta >> t_numer >> t_saldo;
+
+            if (typ_konta == 'O') 
+            {
+                auto konto = std::make_unique<KontoOsobiste>(t_numer);
+                konto->zmienSaldo(t_saldo);
+                wczytywany_klient.dodajKonto(std::move(konto));
+            }
+            else if (typ_konta == 'K') 
+            {
+                auto konto = std::make_unique<KontoKredytowe>(t_numer);
+                konto->zmienSaldo(t_saldo);
+                wczytywany_klient.dodajKonto(std::move(konto));
+            }
+            else if (typ_konta == 'S') 
+            {
+                auto konto = std::make_unique<KontoOszczednosciowe>(t_numer);
+                konto->zmienSaldo(t_saldo);
+                wczytywany_klient.dodajKonto(std::move(konto));
+            }
+        }
+        Klient* nowa_lista = new Klient[liczba_klientow + 1];
+        for (int k = 0; k < liczba_klientow; k++) 
+        {
+            nowa_lista[k] = std::move(listaKlientow[k]);
+        }
+        nowa_lista[liczba_klientow] = std::move(wczytywany_klient);
+        
+        delete[] listaKlientow;
+        listaKlientow = nowa_lista;
+        liczba_klientow++;
+    }
+    plik.close();
+    std::cout << "Baza zostala poprawnie wczytana z pliku.\n";
+}
+
+void System::symulujOdsetki()
+{
+    for (int i = 0; i < liczba_klientow; i++)
+    {
+        listaKlientow[i].symulujMiesiac();
+    }
+    std::cout << "Minal miesiac. Odsetki na wszystkich kontach oszczednosciowych w banku zostaly naliczone!\n";
 }

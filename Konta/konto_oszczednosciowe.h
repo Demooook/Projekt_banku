@@ -11,5 +11,6 @@ class KontoOszczednosciowe : public Konto
         void naliczOdsetki(double saldo);
         void wyswietlInfo() override;
         bool wyplac(double kwota) override;
+        void naliczOdsetki() override;
 };
     

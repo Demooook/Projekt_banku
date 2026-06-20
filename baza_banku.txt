@@ -1,0 +1,8 @@
+4
+     0
+test test dawid dawidowicz 11111111111 2
+O PL1 100
+S PL2 200
+test2 test2 kuba kowalski 00000000000 0
+test3 test3 jakub jakubiak 55555555555 1
+K PL3 0

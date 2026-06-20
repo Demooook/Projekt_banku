@@ -24,7 +24,7 @@ class System
         delete[] listaKlientow;
         }
 
-        void utworzKonto(std::string temp_login,std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, std::string temp_pesel);
+        bool utworzKonto(std::string temp_login,std::string temp_haslo, std::string temp_imie, std::string temp_nazwisko, std::string temp_pesel);
         bool Logowanie(std::string wpisany_login, std::string wpisany_haslo);
         bool stworzTypKonta(int wybrana_opcja);
         bool usunTypKonta(std::string wybrany_nr_konta);
@@ -43,4 +43,5 @@ class System
         void ADMINRaport();
         void wczytBazy();
         void zapisBazy();
+        void symulujOdsetki();
 };
